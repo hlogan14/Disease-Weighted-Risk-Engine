@@ -170,13 +170,13 @@ export const MODEL_COEFFICIENTS: Record<string, { coefs: number[]; intercept: nu
 // data so we can normalise before applying coefficients.
 // ---------------------------------------------------------------------------
 export const SLEEP_MODEL = {
-  coefs: [0.28, 0.12, -0.18, 0.06, -0.04, -0.03, -0.02, 0.015],
-  intercept: 0.35,
-  // Min/max per feature from the Sleep Health & Lifestyle training dataset
+  coefs: [0.04117051, 0.32903672, -0.08596277, 0.01477014, -0.04849413, -0.00378998, 0.05290819, 0.00700229],
+  intercept: 0.48087623,
+  // Min/max per feature extracted from the fitted sklearn MinMaxScaler
   // Order: sleep_duration, sleep_quality, stress_level_num,
   //        physical_activity_mins, bmi_category_num, heart_rate, age, gender_num
-  featureMin: [4.0, 1.0, 1.0, 20.0, 0.1, 55.0, 18.0, 0.0],
-  featureMax: [9.0, 10.0, 10.0, 90.0, 1.0, 95.0, 65.0, 1.0],
+  featureMin: [5.8, 4.0, 3.0, 30.0, 0.3, 65.0, 28.0, 0.0],
+  featureMax: [8.5, 9.0, 8.0, 90.0, 1.0, 86.0, 59.0, 1.0],
 }
 
 // ---------------------------------------------------------------------------
