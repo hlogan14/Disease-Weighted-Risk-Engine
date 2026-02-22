@@ -26,6 +26,7 @@ st.set_page_config(
 # ---------------------------------------------------------------------------
 RISK_COLORS = {"High": "#E74C3C", "Medium": "#F39C12", "Low": "#2ECC71"}
 RISK_EMOJIS = {"High": "🔴", "Medium": "🟡", "Low": "🟢"}
+RISK_ORDER  = {"High": 0, "Medium": 1, "Low": 2}
 
 DISEASE_DESCRIPTIONS = {
     "Heart Disease": (
@@ -119,11 +120,11 @@ with st.form("sentinel_form"):
     with col3:
         blood_pressure = st.selectbox(
             "Has a doctor ever told you that you have high blood pressure?",
-            ["Good", "High", "Not Sure"]
+            ["No", "Yes", "Not Sure"]
         )
         cholesterol = st.selectbox(
-            "Has a doctor ever told you that you have high or low cholesterol?",
-            ["Good", "Low", "High", "Not Sure"]
+            "Has a doctor ever told you that you have high cholesterol?",
+            ["No", "Yes", "Not Sure"]
         )
         stroke = st.selectbox(
             "Have you ever had a stroke or mini-stroke (TIA)?",
@@ -268,7 +269,13 @@ if submitted:
     st.markdown("---")
     st.markdown("## 📊 Your Exposure Ratings")
 
-    for disease_name, data in results.items():
+    # ── Sort results High → Medium → Low, then by probability descending ──
+    sorted_results = sorted(
+        results.items(),
+        key=lambda x: (RISK_ORDER[x[1]["risk_label"]], -x[1]["probability"])
+    )
+
+    for disease_name, data in sorted_results:
         label = data["risk_label"]
         prob  = data["probability"]
         color = RISK_COLORS[label]
@@ -276,7 +283,6 @@ if submitted:
         with st.container():
             st.markdown(f"### {disease_name}")
 
-            # Risk badge + probability bar side-by-side
             badge_col, bar_col = st.columns([1, 3])
             with badge_col:
                 st.markdown(risk_badge(label), unsafe_allow_html=True)
@@ -288,13 +294,11 @@ if submitted:
             with bar_col:
                 st.progress(prob)
 
-            # Top contributing factors
             st.markdown("**🔑 Top Contributing Factors:**")
             for i, (feat_name, contribution) in enumerate(data["top_factors"], 1):
                 direction = "↑ Increases" if contribution > 0 else "↓ Decreases"
                 st.markdown(f"&nbsp;&nbsp;**{i}.** {feat_name} — *{direction} risk*")
 
-            # Sleep score callout
             slp = data["sleep_score"]
             slp_label = "Good" if slp >= 0.6 else ("Fair" if slp >= 0.35 else "Poor")
             st.caption(
@@ -302,9 +306,7 @@ if submitted:
                 f"**{slp*100:.0f}/100** ({slp_label})"
             )
 
-            # Disease description
             st.info(DISEASE_DESCRIPTIONS.get(disease_name, ""))
             st.markdown("---")
 
-    # Disclaimer
     st.markdown(DISCLAIMER)
