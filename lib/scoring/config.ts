@@ -165,10 +165,18 @@ export const MODEL_COEFFICIENTS: Record<string, { coefs: number[]; intercept: nu
 
 // ---------------------------------------------------------------------------
 // Sleep sub-model coefficients (Ridge Regression approximation)
+// The Python pipeline uses MinMaxScaler before Ridge regression.
+// We replicate this by storing the feature min/max ranges from the training
+// data so we can normalise before applying coefficients.
 // ---------------------------------------------------------------------------
 export const SLEEP_MODEL = {
-  coefs: [0.15, 0.08, -0.06, 0.03, -0.02, -0.01, -0.005, 0.01],
-  intercept: 0.2,
+  coefs: [0.28, 0.12, -0.18, 0.06, -0.04, -0.03, -0.02, 0.015],
+  intercept: 0.35,
+  // Min/max per feature from the Sleep Health & Lifestyle training dataset
+  // Order: sleep_duration, sleep_quality, stress_level_num,
+  //        physical_activity_mins, bmi_category_num, heart_rate, age, gender_num
+  featureMin: [4.0, 1.0, 1.0, 20.0, 0.1, 55.0, 18.0, 0.0],
+  featureMax: [9.0, 10.0, 10.0, 90.0, 1.0, 95.0, 65.0, 1.0],
 }
 
 // ---------------------------------------------------------------------------

@@ -126,7 +126,7 @@ function getSleepScore(
   else if (bmi < 30.0) bmiCat = 0.65
   else bmiCat = 1.0
 
-  const features = [
+  const rawFeatures = [
     sleepDuration,
     sleepQualityRating,
     stressNum,
@@ -137,10 +137,17 @@ function getSleepScore(
     genderNum,
   ]
 
-  const { coefs, intercept } = SLEEP_MODEL
+  // Apply MinMaxScaler (replicates the sklearn Pipeline normalisation step)
+  const { coefs, intercept, featureMin, featureMax } = SLEEP_MODEL
+  const scaledFeatures = rawFeatures.map((val, i) => {
+    const range = featureMax[i] - featureMin[i]
+    if (range === 0) return 0.0
+    return clamp((val - featureMin[i]) / range, 0.0, 1.0)
+  })
+
   let score = intercept
-  for (let i = 0; i < features.length; i++) {
-    score += coefs[i] * features[i]
+  for (let i = 0; i < scaledFeatures.length; i++) {
+    score += coefs[i] * scaledFeatures[i]
   }
 
   return clamp(score, 0.0, 1.0)
