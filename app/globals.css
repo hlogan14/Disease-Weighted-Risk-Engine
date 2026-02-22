@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+  --background: 0 0% 99%;
+  --foreground: 210 20% 14%;
+  --card: 0 0% 100%;
+  --card-foreground: 210 20% 14%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 20% 14%;
+  --primary: 174 62% 38%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 174 30% 95%;
+  --secondary-foreground: 174 62% 28%;
+  --muted: 210 15% 96%;
+  --muted-foreground: 210 10% 46%;
+  --accent: 174 30% 92%;
+  --accent-foreground: 174 62% 28%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 210 15% 90%;
+  --input: 210 15% 90%;
+  --ring: 174 62% 38%;
+  --chart-1: 174 62% 38%;
+  --chart-2: 210 15% 60%;
+  --chart-3: 0 72% 51%;
+  --chart-4: 45 90% 55%;
+  --chart-5: 140 60% 42%;
+
+  --risk-high: 0 72% 55%;
+  --risk-medium: 40 90% 55%;
+  --risk-low: 152 60% 42%;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-risk-high: hsl(var(--risk-high));
+  --color-risk-medium: hsl(var(--risk-medium));
+  --color-risk-low: hsl(var(--risk-low));
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
