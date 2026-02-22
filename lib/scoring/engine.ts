@@ -138,11 +138,13 @@ function getSleepScore(
   ]
 
   // Apply MinMaxScaler (replicates the sklearn Pipeline normalisation step)
+  // Note: sklearn MinMaxScaler does not clamp out-of-range values; only the
+  // final score is clamped to [0, 1].
   const { coefs, intercept, featureMin, featureMax } = SLEEP_MODEL
   const scaledFeatures = rawFeatures.map((val, i) => {
     const range = featureMax[i] - featureMin[i]
     if (range === 0) return 0.0
-    return clamp((val - featureMin[i]) / range, 0.0, 1.0)
+    return (val - featureMin[i]) / range
   })
 
   let score = intercept
