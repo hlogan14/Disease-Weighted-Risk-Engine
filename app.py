@@ -17,7 +17,6 @@ from engine import score_all_diseases
 # ---------------------------------------------------------------------------
 st.set_page_config(
     page_title  = "Sentinel – Chronic Disease Risk Screener",
-    page_icon   = "🛡️",
     layout      = "centered",
 )
 
@@ -25,7 +24,6 @@ st.set_page_config(
 # Styling helpers
 # ---------------------------------------------------------------------------
 RISK_COLORS = {"High": "#E74C3C", "Medium": "#F39C12", "Low": "#2ECC71"}
-RISK_EMOJIS = {"High": "🔴", "Medium": "🟡", "Low": "🟢"}
 RISK_ORDER  = {"High": 0, "Medium": 1, "Low": 2}
 
 DISEASE_DESCRIPTIONS = {
@@ -65,7 +63,7 @@ DISEASE_DESCRIPTIONS = {
 }
 
 DISCLAIMER = (
-    "⚠️ **Disclaimer:** Sentinel is a **screening tool only** and does **not** "
+    "**Disclaimer:** Sentinel is a **screening tool only** and does **not** "
     "constitute medical advice, diagnosis, or treatment. "
     "All results are estimates based on self-reported data and statistical models. "
     "Please consult a qualified healthcare professional for any health concerns."
@@ -74,18 +72,17 @@ DISCLAIMER = (
 
 def risk_badge(label: str) -> str:
     color = RISK_COLORS.get(label, "#999")
-    emoji = RISK_EMOJIS.get(label, "⚪")
     return (
         f'<span style="background-color:{color};color:white;'
         f'padding:4px 14px;border-radius:20px;font-weight:bold;'
-        f'font-size:1rem;">{emoji} {label} Risk</span>'
+        f'font-size:1rem;">{label} Risk</span>'
     )
 
 
 # ---------------------------------------------------------------------------
 # Header
 # ---------------------------------------------------------------------------
-st.title("🛡️ Sentinel")
+st.title("Sentinel")
 st.subheader("Chronic Disease Exposure Rating Engine")
 st.markdown(
     "Answer the questions below honestly. Sentinel will estimate your "
@@ -99,7 +96,7 @@ st.markdown("---")
 # ---------------------------------------------------------------------------
 with st.form("sentinel_form"):
 
-    st.markdown("### 👤 Demographics")
+    st.markdown("### Demographics")
     col1, col2 = st.columns(2)
     with col1:
         age    = st.number_input("What is your age?", min_value=19, max_value=80,
@@ -115,7 +112,7 @@ with st.form("sentinel_form"):
                                      min_value=80, max_value=500, value=160, step=1)
 
     st.markdown("---")
-    st.markdown("### 🩺 Medical History")
+    st.markdown("### Medical History")
     col3, col4 = st.columns(2)
     with col3:
         blood_pressure = st.selectbox(
@@ -161,7 +158,7 @@ with st.form("sentinel_form"):
         )
 
     st.markdown("---")
-    st.markdown("### 🧬 Family & Genetic History")
+    st.markdown("### Family & Genetic History")
     col5, col6 = st.columns(2)
     with col5:
         genetic_risk_lung = st.selectbox(
@@ -183,7 +180,7 @@ with st.form("sentinel_form"):
         )
 
     st.markdown("---")
-    st.markdown("### 🚬 Lifestyle")
+    st.markdown("### Lifestyle")
     col7, col8 = st.columns(2)
     with col7:
         smoking = st.selectbox("Do you currently smoke?", ["No", "Yes"])
@@ -219,7 +216,7 @@ with st.form("sentinel_form"):
 
     st.markdown("---")
     submitted = st.form_submit_button(
-        "🔍 Calculate My Exposure Rating",
+        "Calculate My Exposure Rating",
         use_container_width=True
     )
 
@@ -267,7 +264,7 @@ if submitted:
             st.stop()
 
     st.markdown("---")
-    st.markdown("## 📊 Your Exposure Ratings")
+    st.markdown("## Your Exposure Ratings")
 
     # ── Sort results High → Medium → Low, then by probability descending ──
     sorted_results = sorted(
@@ -294,7 +291,7 @@ if submitted:
             with bar_col:
                 st.progress(prob)
 
-            st.markdown("**🔑 Top Contributing Factors:**")
+            st.markdown("**Top Contributing Factors:**")
             for i, (feat_name, contribution) in enumerate(data["top_factors"], 1):
                 direction = "↑ Increases" if contribution > 0 else "↓ Decreases"
                 st.markdown(f"&nbsp;&nbsp;**{i}.** {feat_name} — *{direction} risk*")
@@ -302,7 +299,7 @@ if submitted:
             slp = data["sleep_score"]
             slp_label = "Good" if slp >= 0.6 else ("Fair" if slp >= 0.35 else "Poor")
             st.caption(
-                f"😴 Sleep Quality Score used in this model: "
+                f"Sleep Quality Score used in this model: "
                 f"**{slp*100:.0f}/100** ({slp_label})"
             )
 

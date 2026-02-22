@@ -46,12 +46,12 @@ def save_model(pipeline, name: str):
     os.makedirs(MODELS_DIR, exist_ok=True)
     path = os.path.join(MODELS_DIR, f"{name}_model.pkl")
     joblib.dump(pipeline, path)
-    print(f"  ✓ Saved → {path}")
+    print(f"  Saved -> {path}")
 
 def print_weights(model, feature_names: list, disease: str):
     coefs = model.coef_[0]
     pairs = sorted(zip(feature_names, coefs), key=lambda x: abs(x[1]), reverse=True)
-    print(f"\n  📊 [{disease.upper()}] Feature Weights (sorted by |weight|):")
+    print(f"\n  [{disease.upper()}] Feature Weights (sorted by |weight|):")
     for feat, w in pairs:
         bar  = "█" * min(int(abs(w) * 20), 40)
         sign = "+" if w >= 0 else "-"
@@ -73,7 +73,7 @@ def evaluate(pipeline, X_test, y_test, name: str):
     proba = pipeline.predict_proba(X_test)[:, 1]
     preds = pipeline.predict(X_test)
     auc   = roc_auc_score(y_test, proba)
-    print(f"\n  📈 [{name.upper()}] Test AUC: {auc:.4f}")
+    print(f"\n  [{name.upper()}] Test AUC: {auc:.4f}")
     print(classification_report(y_test, preds,
                                 target_names=["No Risk", "Risk"],
                                 zero_division=0))
@@ -395,7 +395,7 @@ def train_all():
     for name in LOADERS:
         train_disease(name)
 
-    print("\n✅ All models trained and saved to sentinel/models/")
+    print("\nAll models trained and saved to models/")
 
 
 if __name__ == "__main__":

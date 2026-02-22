@@ -51,7 +51,7 @@ EXPECTED = {
 
 
 def validate():
-    print("\n🔍 Sentinel CSV Column Validator")
+    print("\nSentinel CSV Column Validator")
     print("=" * 50)
     all_ok = True
 
@@ -65,24 +65,24 @@ def validate():
 
             for col in expected_cols:
                 found  = col.strip().lower() in actual_lower
-                status = "  ✓" if found else "  ✗ MISSING"
+                status = "  [ok]" if found else "  [MISSING]"
                 if not found:
                     all_ok = False
                 print(f"{status}  {col}")
 
             extra = set(actual_lower) - {c.strip().lower() for c in expected_cols}
             if extra:
-                print(f"  ℹ  Unused columns (ignored): {sorted(extra)}")
+                print(f"  [i]  Unused columns (ignored): {sorted(extra)}")
 
         except FileNotFoundError:
-            print(f"  ✗ FILE NOT FOUND — place CSV at: {path}")
+            print(f"  [X] FILE NOT FOUND -- place CSV at: {path}")
             all_ok = False
 
     print("\n" + "=" * 50)
     if all_ok:
-        print("✅ All columns found. Ready to run: python train.py")
+        print("All columns found. Ready to run: python train.py")
     else:
-        print("❌ Some columns are missing. Paste output back to Copilot.")
+        print("Some columns are missing. Please check the output above.")
 
 
 if __name__ == "__main__":
