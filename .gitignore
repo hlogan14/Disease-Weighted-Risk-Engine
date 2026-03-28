@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+
+# Generated Next.js type declaration
+next-env.d.ts
+
+# TypeScript build cache
+tsconfig.tsbuildinfo
+
+# npm lock file (project uses pnpm)
+package-lock.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+src/__pycache__/
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
